@@ -1,11 +1,30 @@
-export { UiScaffold, PageHeader, EmptyState, Navbar, Sidebar, Footer, handleNavClick } from './free';
+export { UiScaffold, PageHeader, EmptyState, Navbar, Sidebar, Footer, Compose, handleNavClick } from './free';
 export type {
   NavItem,
   PageHeaderProps,
+  PageHeaderAlign,
+  PageHeaderSize,
+  PageHeaderTone,
+  PageHeaderVariant,
   EmptyStateProps,
+  EmptyStateAlign,
+  EmptyStateSize,
+  EmptyStateTone,
+  EmptyStateVariant,
   NavbarProps,
+  NavbarSize,
+  NavbarVariant,
   SidebarProps,
+  SidebarSize,
+  SidebarVariant,
+  SidebarWidth,
   FooterProps,
   FooterColumn,
+  FooterAlign,
+  FooterSize,
+  FooterVariant,
+  ComposeProps,
+  ComposeSize,
+  ComposeVariant,
 } from './free';
 export { UI_REGISTRY } from './registry';

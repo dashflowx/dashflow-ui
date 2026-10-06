@@ -20,6 +20,7 @@ export const UI_REGISTRY = [
   { id: 'ui.navbar', title: 'Navbar', tier: 'free', editor: true },
   { id: 'ui.footer', title: 'Footer', tier: 'free', editor: true },
   { id: 'ui.sidebar', title: 'Sidebar', tier: 'free', editor: true },
+  { id: 'ui.compose', title: 'Compose', tier: 'free', editor: true },
   { id: 'ui.app-shell', title: 'App shell', tier: 'pro', editor: true },
   { id: 'ui.pricing-table', title: 'Pricing table', tier: 'pro', editor: true },
   { id: 'ui.auth-screens', title: 'Auth screen frame', tier: 'pro', editor: true },

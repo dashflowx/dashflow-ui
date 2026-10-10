@@ -1,4 +1,6 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+import { ArrowRight } from '../lib/kit';
+import { cn } from '../lib/utils';
 import { handleNavClick, type NavItem } from './nav';
 
 export type SidebarVariant = 'default' | 'minimal' | 'dark' | 'bordered' | 'ghost';
@@ -60,9 +62,9 @@ const SIZE_ITEM: Record<SidebarSize, string> = {
 };
 
 const WIDTH_CLASSES: Record<SidebarWidth, string> = {
-  sm: 'w-44',
-  md: 'w-56',
-  lg: 'w-64',
+  sm: 'w-56',
+  md: 'w-72',
+  lg: 'w-96',
 };
 
 export function Sidebar({
@@ -74,34 +76,51 @@ export function Sidebar({
   width = 'md',
   className = '',
 }: SidebarProps) {
+  const [expanded, setExpanded] = useState(true);
   return (
     <aside
-      className={`${WIDTH_CLASSES[width]} shrink-0 ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`.trim()}
+      className={cn(
+        'relative flex shrink-0 flex-col overflow-y-auto border-r bg-white dark:border-gray-700 dark:bg-gray-900',
+        expanded ? WIDTH_CLASSES[width] : 'w-20',
+        VARIANT_CLASSES[variant],
+        SIZE_CLASSES[size],
+        className,
+      )}
       data-testid="sidebar"
     >
       {title ? (
-        <p className={`mb-2 px-3 text-xs font-semibold uppercase tracking-wide ${VARIANT_TITLE[variant]}`}>
+        <p className={cn('mb-2 px-3 text-xs font-semibold uppercase tracking-wide', VARIANT_TITLE[variant], expanded ? '' : 'sr-only')}>
           {title}
         </p>
       ) : null}
-      <nav>
+      <nav className="flex-1">
         <ul className="space-y-1">
           {items.map((item) => (
             <li key={item.href}>
               <a
                 href={item.href}
                 aria-current={item.current ? 'page' : undefined}
-                className={`block rounded ${SIZE_ITEM[size]} ${
-                  item.current ? VARIANT_CURRENT[variant] : VARIANT_LINK[variant]
-                }`}
+                className={cn(
+                  'flex items-center rounded-lg',
+                  SIZE_ITEM[size],
+                  item.current ? VARIANT_CURRENT[variant] : VARIANT_LINK[variant],
+                )}
                 onClick={(event) => handleNavClick(item.href, onNavigate, event)}
               >
-                {item.label}
+                {expanded ? item.label : <span className="sr-only">{item.label}</span>}
               </a>
             </li>
           ))}
         </ul>
       </nav>
+      <button
+        type="button"
+        className="mt-4 flex w-full items-center justify-center px-4 py-3 text-gray-600 hover:bg-gray-100"
+        aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
+        onClick={() => setExpanded((open) => !open)}
+      >
+        <ArrowRight className={cn('h-6 w-6', expanded ? 'rotate-180' : '')} />
+      </button>
     </aside>
   );
 }

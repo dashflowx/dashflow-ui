@@ -1,4 +1,50 @@
-export { UiScaffold, PageHeader, EmptyState, Navbar, Sidebar, Footer, Compose, handleNavClick } from './free';
+export {
+  UiScaffold,
+  PageHeader,
+  EmptyState,
+  Navbar,
+  Sidebar,
+  Footer,
+  Compose,
+  handleNavClick,
+} from './free';
+export {
+  DfxCardGrid,
+  DfxFaq,
+  DfxHero,
+  DfxPageHead,
+  DfxStats,
+} from './components';
+export type {
+  CardGridItem,
+  CardGridProps,
+  FaqItem,
+  FaqProps,
+  HeroProps,
+  HeroVariant,
+  PageHeadProps,
+  StatsItem,
+  StatsProps,
+  StatsVariant,
+} from './components';
+export {
+  DfxAdminLayout,
+  DfxFooter,
+  DfxNavBar,
+  DfxSidebar,
+  DfxTabsLayout,
+} from './layout';
+export type {
+  AdminLayoutProps,
+  DfxFooterAction,
+  DfxFooterProps,
+  NavBarProps,
+  NavVariant,
+  DfxSidebarProps,
+  DfxSidebarVariant,
+  TabsLayoutItem,
+  TabsLayoutProps,
+} from './layout';
 export type {
   NavItem,
   PageHeaderProps,

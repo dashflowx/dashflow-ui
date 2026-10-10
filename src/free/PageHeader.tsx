@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Typography } from '@dashflowx/core';
+import { cn } from '../lib/utils';
 
 export type PageHeaderVariant = 'default' | 'bordered' | 'muted' | 'flush' | 'stacked';
 export type PageHeaderSize = 'sm' | 'md' | 'lg';
@@ -31,12 +31,6 @@ const SIZE_MARGIN: Record<PageHeaderSize, string> = {
   lg: 'mb-8 gap-5',
 };
 
-const SIZE_TITLE: Record<PageHeaderSize, 'xl' | '2xl' | '3xl'> = {
-  sm: 'xl',
-  md: '2xl',
-  lg: '3xl',
-};
-
 const ALIGN_CLASSES: Record<PageHeaderAlign, string> = {
   left: 'items-start justify-between text-left',
   center: 'flex-col items-center justify-center text-center',
@@ -65,24 +59,37 @@ export function PageHeader({
 
   return (
     <header
-      className={`flex flex-wrap ${SIZE_MARGIN[size]} ${layout} ${VARIANT_CLASSES[variant]} ${className}`.trim()}
+      className={cn(
+        'lg:flex lg:items-center lg:justify-between',
+        SIZE_MARGIN[size],
+        layout,
+        VARIANT_CLASSES[variant],
+        className,
+      )}
       data-testid="page-header"
     >
-      <div className={align === 'center' || variant === 'stacked' ? 'w-full' : ''}>
-        <Typography variant="two" size={SIZE_TITLE[size]} weight="semibold">
+      <div className={cn('min-w-0 flex-1', align === 'center' || variant === 'stacked' ? 'w-full' : '')}>
+        <h2
+          className={cn(
+            'font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight',
+            size === 'sm' ? 'text-xl' : size === 'lg' ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-3xl',
+          )}
+        >
           {title}
-        </Typography>
+        </h2>
         {description ? (
           <p
-            className={`mt-2 max-w-2xl text-sm ${TONE_DESCRIPTION[tone]} ${
-              align === 'center' || variant === 'stacked' ? 'mx-auto' : ''
-            }`}
+            className={cn(
+              'mt-3 text-lg text-gray-800 dark:text-gray-400',
+              TONE_DESCRIPTION[tone],
+              align === 'center' || variant === 'stacked' ? 'mx-auto max-w-2xl' : '',
+            )}
           >
             {description}
           </p>
         ) : null}
       </div>
-      {action ? <div className="shrink-0">{action}</div> : null}
+      {action ? <div className="mt-5 flex shrink-0 lg:ml-4 lg:mt-0">{action}</div> : null}
     </header>
   );
 }

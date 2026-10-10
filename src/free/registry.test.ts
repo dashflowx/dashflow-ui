@@ -35,11 +35,18 @@ describe('UI_REGISTRY', () => {
     expect(palette.length).toBe(UI_REGISTRY.length);
     expect(palette.filter(isProEntry).every((e) => e.tier === 'pro')).toBe(true);
     expect(UI_REGISTRY.filter((e) => e.tier === 'free').map((e) => e.id)).toEqual([
-      'ui.page-header',
-      'ui.empty-state',
       'ui.navbar',
-      'ui.footer',
       'ui.sidebar',
+      'ui.footer',
+      'ui.page-header',
+      'ui.compose',
+      'ui.admin-layout',
+      'ui.hero',
+      'ui.faq',
+      'ui.stats',
+      'ui.card-grid',
+      'ui.tabs-layout',
+      'ui.empty-state',
     ]);
   });
 });

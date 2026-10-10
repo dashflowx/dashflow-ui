@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+import { cn } from '../lib/utils';
 import { handleNavClick, type NavItem } from './nav';
 
 export type NavbarVariant = 'default' | 'minimal' | 'dark' | 'bordered' | 'muted';
@@ -65,33 +66,52 @@ export function Navbar({
   showBrand = true,
   className = '',
 }: NavbarProps) {
+  const [openMenu, setOpenMenu] = useState(false);
   return (
     <nav
-      className={`flex items-center ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${
-        sticky ? 'sticky top-0 z-40' : ''
-      } ${className}`.trim()}
+      className={cn(
+        VARIANT_CLASSES[variant],
+        sticky ? 'sticky top-0 z-40' : '',
+        className,
+      )}
       data-testid="navbar"
     >
-      {showBrand ? (
-        <div className={`text-base font-semibold ${VARIANT_BRAND[variant]}`}>{brand}</div>
-      ) : null}
-      <ul className="flex flex-1 flex-wrap items-center gap-4">
-        {items.map((item) => (
-          <li key={item.href}>
-            <a
-              href={item.href}
-              aria-current={item.current ? 'page' : undefined}
-              className={`text-sm ${
-                item.current ? VARIANT_CURRENT[variant] : VARIANT_LINK[variant]
-              }`}
-              onClick={(event) => handleNavClick(item.href, onNavigate, event)}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-      {trailing}
+      <div className={cn('mx-auto flex w-full flex-wrap items-center justify-between', SIZE_CLASSES[size])}>
+        <div className="flex items-center justify-center">
+          {showBrand ? (
+            <div className={cn('mr-6 text-base font-semibold', VARIANT_BRAND[variant])}>{brand}</div>
+          ) : null}
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 md:hidden"
+            aria-label="Open main menu"
+            aria-expanded={openMenu}
+            onClick={() => setOpenMenu((open) => !open)}
+          >
+            <svg className="h-5 w-5" viewBox="0 0 17 14" fill="none" aria-hidden="true">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
+            </svg>
+          </button>
+          <ul className={cn(openMenu ? 'flex' : 'hidden md:flex', 'w-full flex-wrap items-center gap-4 md:w-auto')}>
+            {items.map((item) => (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  aria-current={item.current ? 'page' : undefined}
+                  className={cn(
+                    'text-sm font-medium',
+                    item.current ? VARIANT_CURRENT[variant] : VARIANT_LINK[variant],
+                  )}
+                  onClick={(event) => handleNavClick(item.href, onNavigate, event)}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {trailing ? <div className="flex items-center justify-end">{trailing}</div> : null}
+      </div>
     </nav>
   );
 }

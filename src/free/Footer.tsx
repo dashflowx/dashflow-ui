@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { cn } from '../lib/utils';
 import { handleNavClick, type NavItem } from './nav';
 
 export type FooterColumn = {
@@ -32,14 +33,6 @@ const VARIANT_CLASSES: Record<FooterVariant, string> = {
 };
 
 const VARIANT_BRAND: Record<FooterVariant, string> = {
-  default: 'text-white',
-  minimal: 'text-slate-200',
-  light: 'text-slate-900',
-  bordered: 'text-slate-900',
-  muted: 'text-slate-800',
-};
-
-const VARIANT_HEADING: Record<FooterVariant, string> = {
   default: 'text-white',
   minimal: 'text-slate-200',
   light: 'text-slate-900',
@@ -86,44 +79,40 @@ export function Footer({
   showCopyright = true,
   className = '',
 }: FooterProps) {
+  const links = columns.flatMap((column) => column.items);
   return (
     <footer
-      className={`${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${ALIGN_CLASSES[align]} ${className}`.trim()}
+      className={cn(
+        'w-full border-t border-gray-200 bg-white shadow md:flex md:items-center md:justify-between dark:border-gray-600 dark:bg-gray-800',
+        VARIANT_CLASSES[variant],
+        SIZE_CLASSES[size],
+        ALIGN_CLASSES[align],
+        className,
+      )}
       data-testid="footer"
     >
-      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-4">
+      <div>
         {showBrand ? (
-          <div className={`text-base font-semibold ${VARIANT_BRAND[variant]}`}>{brand}</div>
-        ) : (
-          <div />
-        )}
-        {columns.map((column) => (
-          <div key={column.heading}>
-            <h4 className={`mb-3 text-sm font-semibold ${VARIANT_HEADING[variant]}`}>
-              {column.heading}
-            </h4>
-            <ul className="space-y-2 text-sm">
-              {column.items.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    className={VARIANT_LINK[variant]}
-                    onClick={(event) => handleNavClick(item.href, onNavigate, event)}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          <div className={cn('text-base font-semibold', VARIANT_BRAND[variant])}>{brand}</div>
+        ) : null}
+        {showCopyright ? (
+          <p className={cn('text-sm', VARIANT_COPYRIGHT[variant])}>{copyright}</p>
+        ) : null}
       </div>
-      {showCopyright ? (
-        <p
-          className={`mx-auto mt-8 max-w-6xl border-t pt-4 text-center text-xs ${VARIANT_COPYRIGHT[variant]}`}
-        >
-          {copyright}
-        </p>
+      {links.length > 0 ? (
+        <ul className="mt-3 flex flex-wrap items-center gap-4 text-sm font-medium sm:mt-0">
+          {links.map((item) => (
+            <li key={item.href}>
+              <a
+                href={item.href}
+                className={VARIANT_LINK[variant]}
+                onClick={(event) => handleNavClick(item.href, onNavigate, event)}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       ) : null}
     </footer>
   );

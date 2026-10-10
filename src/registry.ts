@@ -5,25 +5,34 @@
 
 export type RegistryTier = 'free' | 'pro';
 
+export type UiCategory = 'chrome' | 'section' | 'selling';
+
 export type RegistryEntry = {
   id: string;
   title: string;
   tier: RegistryTier;
   editor: boolean;
+  category: UiCategory;
 };
 
 export type ComponentRegistry = readonly RegistryEntry[];
 
 export const UI_REGISTRY = [
-  { id: 'ui.page-header', title: 'Page header', tier: 'free', editor: true },
-  { id: 'ui.empty-state', title: 'Empty state', tier: 'free', editor: true },
-  { id: 'ui.navbar', title: 'Navbar', tier: 'free', editor: true },
-  { id: 'ui.footer', title: 'Footer', tier: 'free', editor: true },
-  { id: 'ui.sidebar', title: 'Sidebar', tier: 'free', editor: true },
-  { id: 'ui.compose', title: 'Compose', tier: 'free', editor: true },
-  { id: 'ui.app-shell', title: 'App shell', tier: 'pro', editor: true },
-  { id: 'ui.pricing-table', title: 'Pricing table', tier: 'pro', editor: true },
-  { id: 'ui.auth-screens', title: 'Auth screen frame', tier: 'pro', editor: true },
+  { id: 'ui.navbar', title: 'Navbar', tier: 'free', editor: true, category: 'chrome' },
+  { id: 'ui.sidebar', title: 'Sidebar', tier: 'free', editor: true, category: 'chrome' },
+  { id: 'ui.footer', title: 'Footer', tier: 'free', editor: true, category: 'chrome' },
+  { id: 'ui.page-header', title: 'Page header', tier: 'free', editor: true, category: 'chrome' },
+  { id: 'ui.compose', title: 'Compose', tier: 'free', editor: true, category: 'chrome' },
+  { id: 'ui.admin-layout', title: 'Admin layout', tier: 'free', editor: true, category: 'chrome' },
+  { id: 'ui.app-shell', title: 'App shell', tier: 'pro', editor: true, category: 'chrome' },
+  { id: 'ui.hero', title: 'Hero', tier: 'free', editor: true, category: 'section' },
+  { id: 'ui.faq', title: 'FAQ', tier: 'free', editor: true, category: 'section' },
+  { id: 'ui.stats', title: 'Stats', tier: 'free', editor: true, category: 'section' },
+  { id: 'ui.card-grid', title: 'Card grid', tier: 'free', editor: true, category: 'section' },
+  { id: 'ui.tabs-layout', title: 'Tabs layout', tier: 'free', editor: true, category: 'section' },
+  { id: 'ui.empty-state', title: 'Empty state', tier: 'free', editor: true, category: 'section' },
+  { id: 'ui.pricing-table', title: 'Pricing table', tier: 'pro', editor: true, category: 'selling' },
+  { id: 'ui.auth-screens', title: 'Auth screen frame', tier: 'pro', editor: true, category: 'selling' },
 ] as const satisfies ComponentRegistry;
 
 export function isProEntry(entry: RegistryEntry): boolean {
